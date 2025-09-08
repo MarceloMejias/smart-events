@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Safari Theme -->
+    <meta name="theme-color" content="#212121" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#212121" media="(prefers-color-scheme: light)">
+    <title>Smart Events - Comunidad</title>
+    <!-- Bootstrap CSS with Quartz theme from Bootswatch -->
+    <link href="css/bootstrap-quartz.css" rel="stylesheet">
+
+        <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.svg">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    
+    <!-- Moment.js for date handling -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/es.min.js"></script>
+    
+    <!-- Custom Safari-specific styles -->
+    <style>
+        /* Force #212121 background for Safari and all browsers */
+        body {
+            background: #212121 !important;
+            background-image: none !important;
+            background-attachment: fixed !important;
+        }
+        
+        html {
+            background: #212121 !important;
+        }
+        
+        /* Safari-specific fixes */
+        @supports (-webkit-appearance: none) {
+            body {
+                background: #212121 !important;
+                background-image: none !important;
+            }
+        }
+        
+        /* Override any cached styles and force hardware acceleration */
+        * {
+            -webkit-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+        }
+        
+        /* Hero Section with background image and blur */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        /* Responsive hero heights */
+        @media (max-height: 700px) {
+            .hero-section {
+                min-height: 100vh;
+                height: auto;
+                padding: 2rem 0;
+            }
+        }
+        
+        @media (max-height: 500px) {
+            .hero-section {
+                min-height: 100vh;
+                height: auto;
+                padding: 1rem 0;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem !important;
+            }
+            
+            .hero-content .lead {
+                font-size: 1rem !important;
+            }
+        }
+        
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(8px);
+            transform: scale(1.1);
+            z-index: -1;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 0;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+        <!-- NavBar -->
+     <nav class="navbar navbar-expand-lg bg-dark sticky-top" data-bs-theme="dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="logo.svg" alt="SmartEvents" style="max-height:40px; margin: auto;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="nav nav-pills ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="events.html">Eventos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="community.html">Comunidad</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Body -->
+    <main class="py-5">
+        <div class="container">
+            <!-- Header Section -->
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h1 class="display-4 fw-bold text-white mb-3">
+                        <i class="fas fa-users text-primary me-3"></i>
+                        Comunidad Smart Events
+                    </h1>
+                    <p class="lead text-light">
+                        Conecta con otros asistentes, comparte experiencias y mantente al día con las conversaciones de nuestra comunidad.
+                    </p>
+                </div>
+            </div>
+            <!-- Comments Section -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card bg-dark text-white border-primary">
+                        <div class="card-header d-flex align-items-center">
+                            <i class="fas fa-comments text-primary me-2"></i>
+                            <h4 class="mb-0">Conversación Comunitaria</h4>
+                            <span class="badge bg-primary ms-auto" id="comments-count">0 comentarios</span>
+                        </div>
+                        <div class="card-body">
+                            <!-- New Comment Form -->
+                            <div class="mb-4">
+                                <h5 class="mb-3">
+                                    <i class="fas fa-edit text-primary me-2"></i>
+                                    Comparte tu mensaje
+                                </h5>
+                                <form id="comment-form" class="needs-validation" novalidate>
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <label for="comment-name" class="form-label">Nombre/Alias *</label>
+                                            <input type="text" 
+                                                   class="form-control bg-secondary text-white border-primary" 
+                                                   id="comment-name" 
+                                                   placeholder="Tu nombre o alias"
+                                                   required
+                                                   maxlength="50">
+                                            <div class="invalid-feedback">
+                                                Por favor ingresa tu nombre o alias.
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <label for="comment-message" class="form-label">Mensaje *</label>
+                                            <textarea class="form-control bg-secondary text-white border-primary" 
+                                                      id="comment-message" 
+                                                      rows="3" 
+                                                      placeholder="Escribe tu mensaje aquí..."
+                                                      required
+                                                      maxlength="500"></textarea>
+                                            <div class="form-text">
+                                                <span id="char-count">0</span>/500 caracteres
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Por favor ingresa tu mensaje (máximo 500 caracteres).
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-paper-plane me-2"></i>
+                                                Publicar Comentario
+                                            </button>
+                                            <button type="button" class="btn btn-outline-secondary ms-2" id="clear-form">
+                                                <i class="fas fa-times me-2"></i>
+                                                Limpiar
+                                            </button>
+                                            
+                                            <!-- Data Management Buttons (for admin/development) -->
+                                            <div class="btn-group dropup ms-3" role="group">
+                                                <button type="button" class="btn btn-outline-info btn-sm dropdown-toggle" 
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fas fa-cogs me-1"></i>
+                                                    Gestionar Datos
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-dark">
+                                                    <li>
+                                                        <button class="dropdown-item" type="button" id="export-comments">
+                                                            <i class="fas fa-download me-2"></i>
+                                                            Exportar Backup
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="dropdown-item" type="button" id="clear-storage">
+                                                            <i class="fas fa-trash me-2"></i>
+                                                            Limpiar Comentarios
+                                                        </button>
+                                                    </li>
+                                                    <li><hr class="dropdown-divider"></li>
+                                                    <li>
+                                                        <span class="dropdown-item-text text-muted small">
+                                                            <i class="fas fa-info-circle me-1"></i>
+                                                            Comentarios guardados en tu navegador.<br>
+                                                            Persisten entre sesiones.
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Comments List -->
+                            <div id="comments-section">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="mb-0 border-bottom border-secondary pb-2 flex-grow-1">
+                                        <i class="fas fa-list text-primary me-2"></i>
+                                        Comentarios Recientes
+                                    </h5>
+                                    <div id="storage-status" class="text-muted small ms-3">
+                                        <i class="fas fa-database me-1"></i>
+                                        <span id="storage-indicator">Cargando...</span>
+                                    </div>
+                                </div>
+                                <div id="comments-container">
+                                    <!-- Comments will be dynamically loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+        <!-- Footer -->
+    <footer class="bg-dark text-light py-3">
+        <div class="container text-center">
+            <!-- Logo -->
+            <div class="d-flex align-items-center justify-content-center mb-3">
+                <img src="logo.svg" alt="Smart Events" class="me-2" style="height: 28px;">
+            </div>
+            
+            <!-- Social Media -->
+            <div class="d-flex justify-content-center gap-3 mb-3">
+                <a href="#" class="text-primary fs-5" title="Facebook">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="#" class="text-primary fs-5" title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="#" class="text-primary fs-5" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="text-primary fs-5" title="YouTube">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </div>
+            
+
+            <!-- Copyright -->
+            <p class="mb-0 text-muted small">
+                &copy; 2025 Smart Events. Todos los derechos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Smart Events App - Main Entry Point -->
+    <script type="module" src="js/main.js"></script>

@@ -1,0 +1,17 @@
+{
+  "name": "smart-events",
+  "version": "1.0.0",
+  "description": "Smart Events Landing Page",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^4.4.0"
+  },
+  "dependencies": {
+    "moment": "^2.29.4"
+  }
+}
