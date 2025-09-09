@@ -34,20 +34,7 @@ class CommunityComments {
         this.updateStorageStatus();
     }
 
-    updateStorageStatus() {
-        const indicator = document.getElementById('storage-indicator');
-        if (indicator) {
-            const commentsInStorage = this.loadFromStorage().length;
-            indicator.innerHTML = `${commentsInStorage} guardados localmente`;
-            
-            // Update color based on storage status
-            const statusElement = document.getElementById('storage-status');
-            if (statusElement) {
-                statusElement.className = commentsInStorage > 0 ? 
-                    'text-success small ms-3' : 'text-muted small ms-3';
-            }
-        }
-    }
+
 
     loadComments() {
         try {
